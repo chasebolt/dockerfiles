@@ -1,12 +1,13 @@
+registry = 'cbolt'
 name = 'homeseer'
 version = 'latest'
 
 task default: %w(build push)
 
 task :build do
-  sh "docker build -t #{name}:#{version} ."
+  sh "docker build -t #{registry}/#{name}:#{version} ."
 end
 
 task :push do
-  sh "docker push #{name}:#{version}"
+  sh "docker push #{registry}/#{name}:#{version}"
 end

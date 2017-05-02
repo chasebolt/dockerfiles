@@ -1,6 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
+repo=cbolt
+
 files=( $(git diff "${CIRCLE_COMPARE_URL##*\/compare\/}" --name-only | xargs -r -n1 dirname | sort -u) )
 
 echo "Logging into dockerhub"
@@ -19,11 +21,11 @@ for f in "${files[@]}"; do
 
   (
     set -x
-    docker build -t ${base}:${tag} ${build_dir}
-    docker push ${base}:${tag}
+    docker build -t ${repo}/${base}:${tag} ${build_dir}
+    docker push ${repo}/${base}:${tag}
   )
 
-  success="# Successfully built and pushed ${base}:${tag} with context ${build_dir} #"
+  success="# Successfully built and pushed ${repo}/${base}:${tag} with context ${build_dir} #"
   border=$(printf '#%.0s' $(seq 1 "$(echo -n $success | wc -m)"))
   echo -e "${border}\n${success}\n${border}"
 done
