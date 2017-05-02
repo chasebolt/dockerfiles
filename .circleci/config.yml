@@ -1,0 +1,16 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: docker:stable
+    working_directory: /co
+    steps:
+      - checkout
+      - setup_remote_docker
+
+      - run:
+          name: Install Dependencies
+          command: apk --no-cache add git bash
+      - run:
+          name: Build and push Docker images
+          command: /co/.circleci/build.sh

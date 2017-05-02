@@ -1,0 +1,12 @@
+name = 'cloudflare-ddns'
+version = 'latest'
+
+task default: %w(build push)
+
+task :build do
+  sh "docker build -t #{name}:#{version} ."
+end
+
+task :push do
+  sh "docker push #{name}:#{version}"
+end
