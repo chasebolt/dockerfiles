@@ -3,6 +3,9 @@ set -euo pipefail
 
 files=( $(git diff "${CIRCLE_COMPARE_URL##*\/compare\/}" --name-only | xargs -r -n1 dirname | sort -u) )
 
+echo "Logging into dockerhub"
+docker login -u $DOCKER_USER -p $DOCKER_PASS
+
 for f in "${files[@]}"; do
   base=${f%%\/*}
   tag=${f##*\/}
