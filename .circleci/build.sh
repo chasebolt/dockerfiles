@@ -13,7 +13,7 @@ for f in "${files[@]}"; do
   tag=${f##*\/}
   build_dir=$f
 
-  [ "$base" = "_skeleton_" ] && continue
+  [ "$base" = ".skeleton" ] && continue
   [ "$base" = ".circleci" ] && continue
   [ ! -f "$build_dir/Dockerfile" ] && continue
 
