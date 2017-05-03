@@ -7,14 +7,15 @@ ENV SUBDOMAIN ''
 ENV RUN_EVERY 3600
 
 RUN apk --no-cache add \
-    ruby \
-    ruby-json \
-    ruby-bundler \
-    ca-certificates
+      tini \
+      ruby \
+      ruby-json \
+      ruby-bundler \
+      ca-certificates
 
-COPY ["ddns.rb", "start.sh", "Gemfile", "Gemfile.lock", "/"]
+COPY ["ddns.rb", "Gemfile", "Gemfile.lock", "/"]
+
 RUN bundle config --global silence_root_warning true \
     && bundle install
 
-ENTRYPOINT ["/start.sh"]
-CMD ["/ddns.rb"]
+ENTRYPOINT ["tini", "/ddns.rb"]
