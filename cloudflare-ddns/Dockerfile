@@ -12,11 +12,9 @@ RUN apk --no-cache add \
     ruby-bundler \
     ca-certificates
 
-ADD ["Gemfile", "Gemfile.lock", "/"]
-RUN bundle config --global silence_root_warning true && bundle install
-
-ADD ["ddns.rb", "start.sh", "/"]
-RUN chmod +x /start.sh /ddns.rb
+COPY ["ddns.rb", "start.sh", "Gemfile", "Gemfile.lock", "/"]
+RUN bundle config --global silence_root_warning true \
+    && bundle install
 
 ENTRYPOINT ["/start.sh"]
 CMD ["/ddns.rb"]

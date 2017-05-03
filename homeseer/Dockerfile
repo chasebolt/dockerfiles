@@ -18,10 +18,9 @@ RUN wget -O tini.deb "https://github.com/krallin/tini/releases/download/v0.14.0/
     && rm tini.deb
 
 RUN wget -O homeseer.tgz "http://homeseer.com/updates3/hs3_linux_${VERSION}.tar.gz" \
-    && tar -xz -C / -f /homeseer.tgz \
-    && chown -R root:root /HomeSeer \
+    && tar -xzo -C / -f /homeseer.tgz \
     && rm homeseer.tgz
 
-ADD ["run.sh", "/"]
+COPY ["run.sh", "/"]
 
 ENTRYPOINT ["tini", "/run.sh"]
