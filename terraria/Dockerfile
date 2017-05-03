@@ -3,7 +3,9 @@ FROM ubuntu
 ENV TERRARIA_VERSION=1353
 
 RUN apt-get update \
-    && apt-get install -y curl unzip
+    && apt-get install -y \
+        curl \
+        unzip
 
 RUN curl -o tini.deb "https://github.com/krallin/tini/releases/download/v0.14.0/tini_0.14.0-amd64.deb" \
     && dpkg -i tini.deb \
