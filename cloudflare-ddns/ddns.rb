@@ -9,7 +9,7 @@ email = ENV['CF_EMAIL']
 key = ENV['CF_KEY']
 subdomain = ENV['SUBDOMAIN']
 zone_name = ENV['ZONE_NAME']
-run_every = ENV['RUN_EVERY'].to_i
+run_every = (ENV['RUN_EVERY'] || 3600).to_i
 
 fqdn = if subdomain.nil? || subdomain.empty?
          zone_name

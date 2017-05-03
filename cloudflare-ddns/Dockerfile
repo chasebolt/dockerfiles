@@ -1,11 +1,5 @@
 FROM alpine:latest
 
-ENV CF_EMAIL ''
-ENV CF_KEY ''
-ENV ZONE_NAME ''
-ENV SUBDOMAIN ''
-ENV RUN_EVERY 3600
-
 RUN apk --no-cache add \
       tini \
       ruby \
