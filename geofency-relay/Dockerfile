@@ -8,4 +8,4 @@ COPY ["app", "/home/app/webapp/"]
 RUN bundle config --global silence_root_warning true \
     && bundle install --deployment \
     && chown -R app:app /home/app \
-    && rm -f /etc/service/nginx/down
+    && rm /etc/service/nginx/down

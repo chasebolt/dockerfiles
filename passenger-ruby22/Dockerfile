@@ -1,6 +1,5 @@
-FROM phusion/passenger-ruby22
+FROM phusion/passenger-ruby22:latest
 
-RUN rm -f /etc/service/nginx/down
+COPY ["my_init.d", "/etc/my_init.d/"]
 
-COPY my_init.d/* /etc/my_init.d/
-RUN chmod +x /etc/my_init.d/*
+RUN rm /etc/service/nginx/down

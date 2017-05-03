@@ -1,6 +1,6 @@
-FROM ubuntu
+FROM ubuntu:latest
 
-ENV TERRARIA_VERSION=1353
+ENV TERRARIA_VERSION="1353"
 
 RUN apt-get update \
     && apt-get install -y \
