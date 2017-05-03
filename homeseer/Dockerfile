@@ -1,6 +1,7 @@
 FROM debian:latest
 
-ENV VERSION=3_0_0_318
+ENV VERSION="3_0_0_318"
+ENV TIMEZONE="America/Los_Angeles"
 
 RUN apt-get update \
     && apt-get install -y \
@@ -11,7 +12,17 @@ RUN apt-get update \
         libmono-system-web-extensions4.0-cil \
         libmono-system-runtime-caching4.0-cil \
         flite \
-        chromium
+        chromium \
+        locales
+
+ENV LC_ALL="en_US.UTF-8"
+ENV LANG="en_US.UTF-8"
+ENV LANGUAGE="en_US.UTF-8"
+
+RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
+    && locale-gen \
+    && echo "$TIMEZONE" > /etc/timezone \
+    && dpkg-reconfigure -f noninteractive tzdata
 
 RUN wget -O tini.deb "https://github.com/krallin/tini/releases/download/v0.14.0/tini_0.14.0-amd64.deb" \
     && dpkg -i tini.deb \
