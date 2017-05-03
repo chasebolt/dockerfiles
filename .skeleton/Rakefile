@@ -5,7 +5,8 @@ version = 'latest'
 task default: %w(build push)
 
 task :build do
-  sh "docker build -t #{registry}/#{name}:#{version} ."
+  no_cache = '--no-cache' if ENV['cache'] == 'false'
+  sh "docker build #{no_cache} -t #{registry}/#{name}:#{version} ."
 end
 
 task :push do
