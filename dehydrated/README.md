@@ -1,4 +1,3 @@
-# dehydrated
 loads a domain.txt file and will create certs valid for haproxy deployments. defaults to challenge type http - you will need to run a http container [cbolt/thttpd](https://hub.docker.com/r/cbolt/thttpd/).
 
 # Example Usage - http
