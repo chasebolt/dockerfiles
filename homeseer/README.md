@@ -7,9 +7,9 @@ Here is a list of ports that you may want to expose:
 - Port 10200 HSTouch
 - Port 10300 myHS
 
-# Example
+# Example Usage
 ```
-docker run \
+docker run -it --rm \
   --name homeseer \
   -v </path/to/data>/config:/HomeSeer/Config \
   -v </path/to/data>/data:/HomeSeer/Data \

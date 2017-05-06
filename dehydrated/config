@@ -1,0 +1,5 @@
+BASEDIR="/etc/dehydrated"
+CONFIG_D="${BASEDIR}/config.d"
+CERTDIR="/data/certs"
+ACCOUNTDIR="/data/accounts"
+HOOK="/hook.sh"
