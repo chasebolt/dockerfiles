@@ -172,6 +172,7 @@ check_haproxy() {
   else
     echo " changed!"
     echo " + Forcing rebuild of HAProxy cert!"
+    create_haproxy "${DOMAIN}" "${KEYFILE}" "${FULLCHAINFILE}"
   fi
 }
 
