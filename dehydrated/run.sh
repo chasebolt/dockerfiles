@@ -27,7 +27,6 @@ while :; do
   /opt/dehydrated/dehydrated \
     --cron \
     --config /etc/dehydrated/config \
-    --challenge $CHALLENGE_TYPE \
     --no-lock \
     --keep-going
 

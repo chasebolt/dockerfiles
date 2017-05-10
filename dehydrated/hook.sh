@@ -2,6 +2,8 @@
 # shellcheck disable=SC2034
 set -euo pipefail
 
+HAPROXY_DIR=${HAPROXY_DIR:-"/data/haproxy"}
+
 if [ "$CHALLENGE_TYPE" = "dns-01" ]; then
   export PROVIDER=${PROVIDER:-"cloudflare"}
 fi
@@ -14,7 +16,7 @@ deploy_challenge() {
   # echo " + deploy_challenge called: ${DOMAIN}, ${TOKEN_FILENAME}, ${TOKEN_VALUE}"
 
   if [ "$CHALLENGE_TYPE" = "dns-01" ]; then
-    lexicon $PROVIDER create ${DOMAIN} TXT --name="_acme-challenge.${DOMAIN}." --content="${TOKEN_VALUE}"
+    lexicon $PROVIDER create ${DOMAIN} TXT --name="_acme-challenge.${DOMAIN}." --content="${TOKEN_VALUE}" > /dev/null
     sleep 30
   else
     sleep 5
@@ -46,7 +48,7 @@ clean_challenge() {
   # echo " + clean_challenge called: ${DOMAIN}, ${TOKEN_FILENAME}, ${TOKEN_VALUE}"
 
   if [ "$CHALLENGE_TYPE" = "dns-01" ]; then
-    lexicon $PROVIDER delete ${DOMAIN} TXT --name="_acme-challenge.${DOMAIN}." --content="${TOKEN_VALUE}"
+    lexicon $PROVIDER delete ${DOMAIN} TXT --name="_acme-challenge.${DOMAIN}." --content="${TOKEN_VALUE}" > /dev/null
   fi
 
   # This hook is called after attempting to validate each domain,
@@ -65,7 +67,7 @@ deploy_cert() {
 
   # echo " + deploy_cert called: ${DOMAIN}, ${KEYFILE}, ${CERTFILE}, ${FULLCHAINFILE}, ${CHAINFILE}"
 
-  cat "${KEYFILE}" "${FULLCHAINFILE}" > "/data/haproxy/${DOMAIN}.pem"
+  create_haproxy "${DOMAIN}" "${KEYFILE}" "${FULLCHAINFILE}"
 
   # This hook is called once for each certificate that has been
   # produced. Here you might, for instance, copy your new certificates
@@ -93,6 +95,8 @@ unchanged_cert() {
   CHAINFILE="${5}"
 
   # echo " + unchanged_cert called: ${DOMAIN}, ${KEYFILE}, ${CERTFILE}, ${FULLCHAINFILE}, ${CHAINFILE}"
+
+  check_haproxy "${DOMAIN}" "${KEYFILE}" "${FULLCHAINFILE}"
 
   # This hook is called once for each certificate that is still
   # valid and therefore wasn't reissued.
@@ -126,7 +130,9 @@ invalid_challenge() {
 }
 
 request_failure() {
-  true
+  STATUSCODE="${1}"
+  ERRTXT="${2}"
+  REQUEST="${3}"
 
   # echo " + request_failure called"
 
@@ -149,6 +155,34 @@ exit_hook() {
 
   # This hook is called at the end of a dehydrated command and can be used
   # to do some final (cleanup or other) tasks.
+}
+
+check_haproxy() {
+  DOMAIN="${1}"
+  KEYFILE="${2}"
+  FULLCHAINFILE="${3}"
+
+  printf " + Checking HAProxy cert..."
+
+  HAPROXY_CERT=$(cat "${HAPROXY_DIR}/${DOMAIN}.pem")
+  CURRENT_CERT=$(cat "${KEYFILE}" "${FULLCHAINFILE}")
+
+  if [ "${CURRENT_CERT}" == "${HAPROXY_CERT}" ]; then
+    echo " unchanged."
+  else
+    echo " changed!"
+    echo " + Forcing rebuild of HAProxy cert!"
+  fi
+}
+
+create_haproxy() {
+  DOMAIN="${1}"
+  KEYFILE="${2}"
+  FULLCHAINFILE="${3}"
+
+  echo " + Creating HAProxy cert."
+
+  cat "${KEYFILE}" "${FULLCHAINFILE}" > "${HAPROXY_DIR}/${DOMAIN}.pem"
 }
 
 HANDLER=$1; shift; $HANDLER "$@"
