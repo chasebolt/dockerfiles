@@ -10,6 +10,6 @@ RUN apk --no-cache add \
 COPY ["ddns.rb", "Gemfile", "Gemfile.lock", "/"]
 
 RUN bundle config --global silence_root_warning true \
-    && bundle install --deployment
+    && bundle install
 
 ENTRYPOINT ["tini", "/ddns.rb"]
