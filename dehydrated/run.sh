@@ -11,24 +11,31 @@ if [ "$STAGE" = true ]; then
   echo 'CA_TERMS="https://acme-staging.api.letsencrypt.org/terms"' >> /etc/dehydrated/config.d/stage.sh
 fi
 
-[ ! -d "/data" ] && mkdir -p /data
-[ ! -d "/data/certs" ] && mkdir -p /data/certs
-[ ! -d "/data/accounts" ] && mkdir -p /data/accounts
-[ ! -d "/data/haproxy" ] && mkdir -p /data/haproxy
-[ ! -d "/etc/dehydrated/config.d" ] && mkdir -p /etc/dehydrated/config.d
-[ ! -d "/var/www/dehydrated" ] && mkdir -p /var/www/dehydrated
+mkdir -p \
+  /data \
+  /data/certs \
+  /data/accounts \
+  /data/haproxy \
+  /etc/dehydrated/config.d \
+  /var/www/dehydrated
 
 echo "CHALLENGETYPE=\"${CHALLENGE_TYPE}\"" > /etc/dehydrated/config.d/challenge.sh
 echo "CONTACT_EMAIL=\"${CONTACT_EMAIL}\"" > /etc/dehydrated/config.d/email.sh
 
+echo "Registering account..."
 /opt/dehydrated/dehydrated --register --accept-terms
 
 while :; do
+  echo "Registering certs..."
   /opt/dehydrated/dehydrated \
     --cron \
     --config /etc/dehydrated/config \
-    --no-lock \
     --keep-going
+
+  echo "Cleaning unused certs..."
+  /opt/dehydrated/dehydrated \
+    --cleanup \
+    --config /etc/dehydrated/config
 
   echo 'Sleeping...'
   sleep 86400
