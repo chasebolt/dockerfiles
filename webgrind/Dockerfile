@@ -13,5 +13,5 @@ RUN apt-get update && apt-get install -y \
 RUN git clone --depth 1 https://github.com/jokkedk/webgrind.git /var/www/html
 
 RUN mkdir -p $STORAGE_DIR $PROFILER_DIR \
-    && sed -i "s@storageDir = .*@storageDir = '$STORAGE_DIR'@" /var/www/html/config.php \
-    && sed -i "s@profilerDir = .*@profilerDir = '$PROFILER_DIR'@" /var/www/html/config.php
+    && sed -i "s@storageDir = .*@storageDir = '$STORAGE_DIR';@" /var/www/html/config.php \
+    && sed -i "s@profilerDir = .*@profilerDir = '$PROFILER_DIR';@" /var/www/html/config.php
