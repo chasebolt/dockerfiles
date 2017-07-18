@@ -3,17 +3,17 @@ FROM debian:latest
 ENV VERSION="3_0_0_318"
 ENV TIMEZONE="America/Los_Angeles"
 
-RUN apt-get update \
-    && apt-get install -y \
-        wget \
-        mono-vbnc \
-        libmono-system-web4.0.cil \
-        libmono-system-design4.0.cil \
-        libmono-system-web-extensions4.0-cil \
-        libmono-system-runtime-caching4.0-cil \
-        flite \
-        chromium \
-        locales
+RUN apt-get update && apt-get install -y \
+      wget \
+      mono-vbnc \
+      libmono-system-web4.0.cil \
+      libmono-system-design4.0.cil \
+      libmono-system-web-extensions4.0-cil \
+      libmono-system-runtime-caching4.0-cil \
+      flite \
+      chromium \
+      locales \
+    && rm -rf /var/lib/apt/lists/*
 
 ENV LC_ALL="en_US.UTF-8"
 ENV LANG="en_US.UTF-8"
