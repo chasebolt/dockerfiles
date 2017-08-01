@@ -9,6 +9,7 @@ sed -i "s/%%CACHE_SIZE_DISK%%/${CACHE_SIZE_DISK}/" /etc/squid/squid.conf || true
 
 if [ ! -d /var/cache/squid/00 ]; then
   echo "Initializing Object cache..."
+  chown squid:squid /var/cache/squid
   /usr/sbin/squid -f /etc/squid/squid.conf -N -z
   chown -R squid:squid /var/cache/squid
 fi
