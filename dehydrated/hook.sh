@@ -148,6 +148,13 @@ request_failure() {
   #   The request type used (head/get/post)
 }
 
+startup_hook() {
+  # This hook is called before the cron command to do some initial tasks
+  # (e.g. starting a webserver).
+
+  true
+}
+
 exit_hook() {
   true
 
