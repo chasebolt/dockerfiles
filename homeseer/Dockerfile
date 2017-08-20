@@ -1,6 +1,6 @@
 FROM debian:latest
 
-ENV VERSION="3_0_0_318"
+ENV VERSION="3_0_0_326"
 ENV TIMEZONE="America/Los_Angeles"
 
 RUN apt-get update && apt-get install -y \
