@@ -12,4 +12,4 @@ COPY ["ddns.rb", "Gemfile", "Gemfile.lock", "/"]
 RUN bundle config --global silence_root_warning true \
     && bundle install
 
-ENTRYPOINT ["tini", "/ddns.rb"]
+ENTRYPOINT ["tini", "--", "/ddns.rb"]

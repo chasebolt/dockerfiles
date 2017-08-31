@@ -8,4 +8,4 @@ RUN apk --no-cache add \
 COPY ["squid.conf", "/etc/squid/"]
 COPY ["run.sh", "/"]
 
-ENTRYPOINT ["tini", "/run.sh"]
+ENTRYPOINT ["tini", "--", "/run.sh"]

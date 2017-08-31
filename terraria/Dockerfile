@@ -1,10 +1,12 @@
 FROM ubuntu:latest
 
+ENV DEBIAN_FRONTEND noninteractive
 ENV TERRARIA_VERSION="1353"
 
 RUN apt-get update && apt-get install -y \
       wget \
       unzip \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 RUN wget -O tini.deb "https://github.com/krallin/tini/releases/download/v0.14.0/tini_0.14.0-amd64.deb" \
@@ -19,4 +21,4 @@ RUN wget -O terraria.zip "http://terraria.org/server/terraria-server-${TERRARIA_
 
 COPY ["run.sh", "config.txt", "/"]
 
-ENTRYPOINT ["tini", "/run.sh"]
+ENTRYPOINT ["tini", "--", "/run.sh"]

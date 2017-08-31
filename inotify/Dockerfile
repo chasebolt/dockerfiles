@@ -7,4 +7,4 @@ RUN apk --no-cache add \
 
 COPY ["run.sh", "/"]
 
-ENTRYPOINT ["tini", "/run.sh"]
+ENTRYPOINT ["tini", "--", "/run.sh"]

@@ -1,5 +1,6 @@
 FROM debian:latest
 
+ENV DEBIAN_FRONTEND noninteractive
 ENV VERSION="3_0_0_326"
 ENV TIMEZONE="America/Los_Angeles"
 
@@ -13,6 +14,7 @@ RUN apt-get update && apt-get install -y \
       flite \
       chromium \
       locales \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 ENV LC_ALL="en_US.UTF-8"
@@ -34,4 +36,4 @@ RUN wget -O homeseer.tgz "http://homeseer.com/updates3/hs3_linux_${VERSION}.tar.
 
 COPY ["run.sh", "/"]
 
-ENTRYPOINT ["tini", "/run.sh"]
+ENTRYPOINT ["tini", "--", "/run.sh"]

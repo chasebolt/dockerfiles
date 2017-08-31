@@ -17,4 +17,4 @@ RUN git clone --depth 1 https://github.com/lukas2511/dehydrated.git /opt/dehydra
 COPY ["hook.sh", "run.sh", "/"]
 COPY ["config", "/etc/dehydrated/"]
 
-ENTRYPOINT ["tini", "/run.sh"]
+ENTRYPOINT ["tini", "--", "/run.sh"]
