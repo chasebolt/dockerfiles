@@ -1,5 +1,5 @@
 registry = 'cbolt'
-name = 'thttpd'
+name = File.basename(__dir__)
 version = 'latest'
 
 task default: %w(build push)
