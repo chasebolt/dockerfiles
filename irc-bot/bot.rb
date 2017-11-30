@@ -12,7 +12,7 @@ bot = Cinch::Bot.new do
 
   helpers do
     def shorten(url)
-      url = open("https://tinyurl.com/api-create.php?provider=crum_bs&url=#{URI.escape(url)}").read
+      url = open("https://tinyurl.com/api-create.php?url=#{URI.escape(url)}").read
       url == 'Error' ? nil : url
     rescue OpenURI::HTTPError
       nil
