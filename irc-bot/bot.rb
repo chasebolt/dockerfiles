@@ -20,6 +20,7 @@ bot = Cinch::Bot.new do
   end
 
   on :channel do |m|
+    return if m.message.length <= 60
     urls = URI.extract(m.message, %w(http https))
 
     unless urls.empty?
