@@ -1,7 +1,7 @@
 FROM debian:latest
 
 ENV DEBIAN_FRONTEND noninteractive
-ENV VERSION="3_0_0_368"
+ENV VERSION="3_0_0_435"
 ENV TIMEZONE="America/Los_Angeles"
 
 RUN apt-get update && apt-get install -y \
