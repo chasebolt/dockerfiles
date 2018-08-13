@@ -1,16 +1,12 @@
-FROM debian:latest
+FROM mono:5.14.0.177
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV VERSION="3_0_0_435"
 ENV TIMEZONE="America/Los_Angeles"
 
 RUN apt-get update && apt-get install -y \
+      mono-complete \
       wget \
-      mono-vbnc \
-      libmono-system-web4.0.cil \
-      libmono-system-design4.0.cil \
-      libmono-system-web-extensions4.0-cil \
-      libmono-system-runtime-caching4.0-cil \
       flite \
       chromium \
       locales \
