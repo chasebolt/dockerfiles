@@ -14,12 +14,11 @@ mkdir -p \
   /var/www/dehydrated
 
 if [ "$STAGE" = true ]; then
-  echo 'CA="https://acme-staging.api.letsencrypt.org/directory"' > /etc/dehydrated/config.d/stage.sh
-  echo 'CA_TERMS="https://acme-staging.api.letsencrypt.org/terms"' >> /etc/dehydrated/config.d/stage.sh
+  echo 'CA="https://acme-staging-v02.api.letsencrypt.org/directory"' > /etc/dehydrated/config.d/stage.sh
 fi
 
-echo "CHALLENGETYPE=\"${CHALLENGE_TYPE}\"" > /etc/dehydrated/config.d/challenge.sh
 echo "CONTACT_EMAIL=\"${CONTACT_EMAIL}\"" > /etc/dehydrated/config.d/email.sh
+echo "CHALLENGETYPE=\"${CHALLENGE_TYPE}\"" > /etc/dehydrated/config.d/challenge.sh
 
 echo "Registering account..."
 /opt/dehydrated/dehydrated --register --accept-terms
