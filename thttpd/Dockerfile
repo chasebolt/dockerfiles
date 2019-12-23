@@ -4,4 +4,6 @@ RUN apk --no-cache add \
       tini \
       thttpd
 
-ENTRYPOINT ["tini", "--", "/usr/sbin/thttpd", "-D", "-d", "/www", "-l", "/dev/stderr"]
+RUN mkdir /www
+
+ENTRYPOINT ["tini", "--", "/usr/sbin/thttpd", "-D", "-d", "/www", "-l", "/dev/stdout"]
